@@ -1,0 +1,66 @@
+.preview {
+  border: 1px solid gainsboro;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.topbar {
+  background: #27242f;
+  padding: 1em;
+  gap: 0.5em;
+  display: flex;
+}
+
+.topbar span {
+  display: block;
+  height: 0.65em;
+  width: 0.65em;
+  border-radius: 100%;
+}
+
+.topbar span:nth-child(1) {
+  background: #f2545b;
+}
+.topbar span:nth-child(2) {
+  background: #f5c26b;
+}
+.topbar span:nth-child(3) {
+  background: #00bda5;
+}
+
+.header {
+  background: #eff0f6;
+  padding: 2em;
+}
+
+.body {
+  padding: 2em 2em 0;
+}
+
+.body span {
+  background: #eff0f6;
+  display: block;
+  height: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.body span:nth-child(1) {
+  width: 50%;
+}
+.body span:nth-child(2) {
+  width: 90%;
+}
+.body span:nth-child(3) {
+  width: 95%;
+}
+.body span:nth-child(4) {
+  width: 80%;
+}
+
+.body p {
+  margin: 1em 0;
+}
+
+.signature {
+  padding: 0 2em 2em;
+}
