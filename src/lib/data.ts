@@ -17,5 +17,5 @@ export const initialUserData: TUserData = {
   email: '',
   cell: '',
   whatsapp: '',
-  site: '',
+  site: 'jogajunto.co',
 };

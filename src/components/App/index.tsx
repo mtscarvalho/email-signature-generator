@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 
 import classes from './style.module.css';
 
@@ -13,12 +13,13 @@ import { Label } from 'src/components/Label';
 import { setPhoneMask } from 'src/lib/utils.js';
 import { TUserData, initialUserData } from 'src/lib/data.js';
 
+import useClipboard from 'src/hook/useClipboard';
+
 export function App() {
   const [userData, setUserData] = useState<TUserData>(initialUserData);
-
   const { fname, lname, role, department, email, cell, whatsapp } = userData;
 
-  const outputRef = useRef(null);
+  const { copyToClipboard, isCopied, elementToCopy } = useClipboard();
 
   const copyCellValueToWhatsApp = () => {
     setUserData((prevUserData) => ({
@@ -29,7 +30,6 @@ export function App() {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setUserData((prevUserData) => ({
       ...prevUserData,
       [name]: value,
@@ -41,8 +41,9 @@ export function App() {
     setUserData(initialUserData);
   };
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    copyToClipboard();
   };
 
   return (
@@ -82,16 +83,18 @@ export function App() {
             <Input type="tel" name="whatsapp" value={whatsapp} placeholder="Digite o seu WhatsApp" minLength={14} maxLength={15} onChange={handleInputChange} />
           </Field>
           <footer>
-            <button type="submit" onClick={handleSubmit}>
-              Gerar assinatura
+            <button type="button" onClick={handleSubmit}>
+              Copy to Clipboard
             </button>
             <button type="reset" onClick={handleReset}>
               Limpar campos
             </button>
+            {isCopied === true && <p>Copied to clipboard!</p>}
+            {isCopied === false && <p>Copy to clipboard failed</p>}
           </footer>
         </Form>
         <Preview>
-          <div ref={outputRef}>
+          <div ref={elementToCopy}>
             <Signature data={userData} />
           </div>
         </Preview>
