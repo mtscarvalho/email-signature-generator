@@ -7,13 +7,15 @@ type Props = {
 export function JobTitle({ data }: Props) {
   const { role, department } = data;
 
+  if (!role && !department) {
+    return;
+  }
+
   return (
     <>
-      {role || department ? (
-        <p>
-          {role} {role && department && '|'} {department}
-        </p>
-      ) : null}
+      <p>
+        {role} {role && department && '|'} {department}
+      </p>
     </>
   );
 }

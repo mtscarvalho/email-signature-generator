@@ -7,9 +7,10 @@ const useClipboard = () => {
   const copyToClipboard = () => {
     if (elementToCopy.current) {
       const range = document.createRange();
+      const selection = window.getSelection();
+
       range.selectNode(elementToCopy.current);
 
-      const selection = window.getSelection();
       if (selection !== null) {
         selection.removeAllRanges();
         selection.addRange(range);

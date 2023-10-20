@@ -14,11 +14,12 @@ import { setPhoneMask } from 'src/lib/utils.js';
 import { TUserData, initialUserData } from 'src/lib/data.js';
 
 import useClipboard from 'src/hook/useClipboard';
+import useVCard from 'src/hook/useVCard';
 
 export function App() {
   const [userData, setUserData] = useState<TUserData>(initialUserData);
   const { fname, lname, role, department, email, cell, whatsapp } = userData;
-
+  const { vCardLink } = useVCard(userData);
   const { copyToClipboard, isCopied, elementToCopy } = useClipboard();
 
   const copyCellValueToWhatsApp = () => {
@@ -95,7 +96,7 @@ export function App() {
         </Form>
         <Preview>
           <div ref={elementToCopy}>
-            <Signature data={userData} />
+            <Signature data={userData} vCard={vCardLink} />
           </div>
         </Preview>
       </main>

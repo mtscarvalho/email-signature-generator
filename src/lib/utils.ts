@@ -6,5 +6,10 @@ export function setPhoneMask(value: string) {
 }
 
 export function removePhoneMask(value: string) {
-  return value?.replace(/\D/g, '').replace(/^0/, '55');
+  return '+55' + value.replace(/\D/g, '');
+}
+
+export function extractDomainFromUrl(url: string) {
+  const domain = url.replace(/(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '');
+  return domain;
 }
