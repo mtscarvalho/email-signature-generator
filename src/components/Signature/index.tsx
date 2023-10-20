@@ -1,21 +1,31 @@
 import classes from './style.module.css';
 
-import { TUserData } from '../App';
+import { Name } from './Name';
+import { Email } from './Email';
+import { JobTitle } from './JobTitle';
+import { Cell } from './Cell';
+import { Site } from './Site';
+
+import { TUserData } from 'src/lib/data';
 
 type Props = {
   data: TUserData;
 };
 
 export function Signature({ data }: Props) {
-  const { fname, lname, role, department, email, cell, whatsapp, phone, extension } = data;
-
   return (
-    // prettier-ignore
-    <div className={classes.signature}>
-      <p>{!fname && !lname ? 'Nome' : `${fname} ${lname}`}</p>
-      <p>{role} {role && department && '|'} {department}</p>
-      <p><a href={`mailto:${email}`}>{!email ? 'nome@jogajunto.co' : email}</a></p>
-      <p><a href="https://jogajunto.co/">jogajunto.co</a></p>
-    </div>
+    <table className={classes.signature}>
+      <tbody>
+        <tr>
+          <td>
+            <Name data={data} />
+            <JobTitle data={data} />
+            <Email data={data} />
+            <Cell data={data} />
+            <Site data={data} />
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }

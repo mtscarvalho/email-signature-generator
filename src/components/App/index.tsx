@@ -1,66 +1,48 @@
-import { useState, ChangeEvent } from 'react';
-
-import { Header } from '../Header/index.jsx';
-import { Footer } from '../Footer/index.jsx';
-import { Form } from '../Form/index.jsx';
-import { Input } from '../Input/index.js';
-import { Preview } from '../Preview/index.js';
-import { Signature } from '../Signature/index.js';
+import { useState, useRef, ChangeEvent } from 'react';
 
 import classes from './style.module.css';
-import { Field } from '../Field/index.js';
-import { Label } from '../Label/index.js';
 
-export type TUserData = {
-  fname: string;
-  lname: string;
-  role: string;
-  department: string;
-  email: string;
-  cell: string;
-  whatsapp: string;
-  phone: string;
-  extension: string | number;
-};
-
-const setPhoneMask = (value: string) => {
-  return value
-    .replace(/\D/g, '')
-    .replace(/^(\d{2})(\d)/g, '($1) $2')
-    .replace(/(\d)(\d{4})$/, '$1-$2');
-};
+import { Header } from 'src/components/Header/';
+import { Footer } from 'src/components/Footer';
+import { Form } from 'src/components/Form';
+import { Input } from 'src/components/Input';
+import { Preview } from 'src/components/Preview';
+import { Signature } from 'src/components/Signature';
+import { Field } from 'src/components/Field';
+import { Label } from 'src/components/Label';
+import { setPhoneMask } from 'src/lib/utils.js';
+import { TUserData, initialUserData } from 'src/lib/data.js';
 
 export function App() {
-  const [userData, setUserData] = useState<TUserData>({
-    fname: '',
-    lname: '',
-    role: '',
-    department: '',
-    email: '',
-    cell: '',
-    whatsapp: '',
-    phone: '',
-    extension: '',
-  });
+  const [userData, setUserData] = useState<TUserData>(initialUserData);
 
-  const { fname, lname, role, department, email, cell, whatsapp, phone, extension } = userData;
+  const { fname, lname, role, department, email, cell, whatsapp } = userData;
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
+  const outputRef = useRef(null);
 
+  const copyCellValueToWhatsApp = () => {
     setUserData((prevUserData) => ({
       ...prevUserData,
-      [name]: type === 'tel' ? setPhoneMask(value) : value,
+      whatsapp: prevUserData.cell,
     }));
   };
 
-  const copyCellValueToWhatsApp = () => {
-    const cellValue = userData.cell;
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
     setUserData((prevUserData) => ({
       ...prevUserData,
-      whatsapp: cellValue,
+      [name]: value,
     }));
+  };
+
+  const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setUserData(initialUserData);
+  };
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
   };
 
   return (
@@ -90,26 +72,28 @@ export function App() {
           </Field>
           <Field>
             <Label htmlFor="cell">Celular?</Label>
-            <Input type="tel" name="cell" value={cell} placeholder="Digite o seu celular" minLength={14} maxLength={15} onChange={handleInputChange} />
+            <Input type="tel" name="cell" value={setPhoneMask(cell)} placeholder="Digite o seu celular" minLength={14} maxLength={15} onChange={handleInputChange} />
           </Field>
           <Field>
             <Label htmlFor="whatsapp">WhatsApp?</Label>
             <button onClick={copyCellValueToWhatsApp} type="button">
               Copiar do celular
             </button>
-            <Input type="tel" name="whatsapp" value={whatsapp} placeholder="Digite o seu celular" onChange={handleInputChange} />
+            <Input type="tel" name="whatsapp" value={whatsapp} placeholder="Digite o seu WhatsApp" minLength={14} maxLength={15} onChange={handleInputChange} />
           </Field>
-          <Field>
-            <Label htmlFor="phone">Telefone Fixo?</Label>
-            <Input type="tel" name="phone" value={phone} placeholder="Digite o seu celular" minLength={14} maxLength={15} onChange={handleInputChange} />
-          </Field>
-          <Field>
-            <Label htmlFor="extension">Ramal?</Label>
-            <Input type="number" name="extension" value={extension} placeholder="Digite o seu celular" onChange={handleInputChange} />
-          </Field>
+          <footer>
+            <button type="submit" onClick={handleSubmit}>
+              Gerar assinatura
+            </button>
+            <button type="reset" onClick={handleReset}>
+              Limpar campos
+            </button>
+          </footer>
         </Form>
         <Preview>
-          <Signature data={userData} />
+          <div ref={outputRef}>
+            <Signature data={userData} />
+          </div>
         </Preview>
       </main>
       <Footer />
