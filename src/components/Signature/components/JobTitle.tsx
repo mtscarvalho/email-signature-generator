@@ -2,9 +2,13 @@ import { TUserData } from 'src/lib/data';
 
 type Props = {
   data: TUserData;
+  style: {
+    text: React.CSSProperties;
+    link: React.CSSProperties;
+  };
 };
 
-export function JobTitle({ data }: Props) {
+export function JobTitle({ data, style }: Props) {
   const { role, department } = data;
 
   if (!role && !department) {
@@ -12,10 +16,8 @@ export function JobTitle({ data }: Props) {
   }
 
   return (
-    <>
-      <p>
-        {role} {role && department && '|'} {department}
-      </p>
-    </>
+    <p style={style.text}>
+      {role} {role && department && '|'} {department}
+    </p>
   );
 }

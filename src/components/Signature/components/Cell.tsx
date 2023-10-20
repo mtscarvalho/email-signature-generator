@@ -3,6 +3,10 @@ import { removePhoneMask } from 'src/lib/utils';
 
 type Props = {
   data: TUserData;
+  style: {
+    text: React.CSSProperties;
+    link: React.CSSProperties;
+  };
 };
 
 function formatPhoneNumber(phone: string) {
@@ -13,7 +17,7 @@ function formatWhatsAppLink(phone: string) {
   return <a href={`https://wa.me/${removePhoneMask(phone)}`}>WhatsApp</a>;
 }
 
-export function Cell({ data }: Props) {
+export function Cell({ data, style }: Props) {
   const { cell, whatsapp } = data;
 
   if (!cell && !whatsapp) {
@@ -21,7 +25,7 @@ export function Cell({ data }: Props) {
   }
 
   return (
-    <p>
+    <p style={style.text}>
       {cell && formatPhoneNumber(cell)}
       {cell && whatsapp && ' | '}
       {whatsapp && formatWhatsAppLink(whatsapp)}
