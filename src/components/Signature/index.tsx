@@ -6,6 +6,7 @@ import { JobTitle } from './components/JobTitle';
 import { Cell } from './components/Cell';
 import { Website } from './components/Website';
 import { Logo } from './components/Logo';
+import { Social } from './components/Social';
 import { VCard } from './components/VCard';
 
 import { TUserData } from 'src/lib/data';
@@ -57,12 +58,8 @@ export function Signature({ data, vCard }: Props) {
           </td>
         </tr>
         <tr>
-          <td
-            style={{
-              paddingLeft: '1em',
-            }}
-          >
-            <Logo data={data} />
+          <td style={{ paddingLeft: '.5em' }}>
+            <Social data={data} style={textStyles} />
           </td>
         </tr>
       </tbody>
